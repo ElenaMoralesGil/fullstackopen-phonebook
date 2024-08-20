@@ -13,7 +13,7 @@ app.use(morgan((tokens, req, res) => {
         contentLength = '-';
     }
     if (req.method === 'POST') {
-        body = ` ${JSON.stringify(req.body)}`;
+        let body = ` ${JSON.stringify(req.body)}`;
         return `${method} ${url} ${status} ${contentLength} - ${responseTime}ms${body}`;
     } else{
         return `${method} ${url} ${status} ${contentLength} - ${responseTime}ms`;
