@@ -3,7 +3,23 @@ const app = express()
 const morgan = require('morgan');
 
 app.use(express.json())
-app.use(morgan('tiny'))
+app.use(morgan((tokens, req, res) => {
+    const status = tokens.status(req, res);
+    const method = tokens.method(req, res);
+    const url = tokens.url(req, res);
+    const responseTime = tokens['response-time'](req, res);
+    let contentLength = tokens.res(req, res, 'content-length');
+    if (contentLength === undefined) {
+        contentLength = '-';
+    }
+    if (req.method === 'POST') {
+        body = ` ${JSON.stringify(req.body)}`;
+        return `${method} ${url} ${status} ${contentLength} - ${responseTime}ms${body}`;
+    } else{
+        return `${method} ${url} ${status} ${contentLength} - ${responseTime}ms`;
+    }
+}));
+
 let phonebook = [
     {
         "id": "1",
