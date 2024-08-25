@@ -6,13 +6,19 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:ui": "@powershell Remove-Item -Recurse -Force dist && cd C:/Users/elena/Desktop/fullstackopenCourse/part2/phonebook && npm run build && @powershell Copy-Item dist -Recurse C:/Users/elena/Desktop/projects/fullstackopen-part3/part3",
+    "deploy": "fly deploy",
+    "deploy:full": "npm run build:ui && npm run deploy",
+    "logs:prod": "fly logs"
   },
   "author": "Elena Morales Gil",
   "license": "MIT",
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.19.2",
+    "mongodb": "^6.8.0",
+    "mongoose": "^8.5.4",
     "morgan": "^1.10.0"
   },
   "devDependencies": {
