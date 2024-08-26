@@ -59,7 +59,7 @@ app.use(morgan((tokens, req, res) => {
     app.delete('/api/persons/:id', (request, response) => {
 
         Person.deleteOne({id: request.params.id})
-            .then(result => {
+            .then(() => {
                 response.status(204).end();
             })
             .catch(error => {
