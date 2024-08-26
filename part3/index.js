@@ -58,15 +58,12 @@ app.use(morgan((tokens, req, res) => {
 
     app.delete('/api/persons/:id', (request, response) => {
 
-        Person.deleteOne({id: request.params.id})
-            .then(() => {
-                response.status(204).end();
+        Person.findByIdAndDelete(request.params.id)
+            .then(result => {
+                response.status(204).end()
             })
-            .catch(error => {
-                console.error(error);
-                response.status(500).end();
-            });
-    });
+            .catch(error => next(error))
+    })
 
 
     app.post('/api/persons', (request, response) => {
