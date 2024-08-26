@@ -93,26 +93,29 @@ app.post('/api/persons', (request, response, next) => {
                 .catch(error => next(error))
         })
         .catch(error => next(error))
+})
 
-    const PORT = process.env.PORT
-    app.listen(PORT, () => {
-        console.log(`Server running on port ${PORT}`)
-    })
+const PORT = process.env.PORT
+
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`)
+})
 
 
-    const errorHandler = (error, request, response, next) => {
-        console.error(error.message)
+const errorHandler = (error, request, response, next) => {
+    console.error(error.message)
 
-        if (error.name === 'CastError') {
-            return response.status(400).send({error: 'malformatted id'})
-        }
-
-        if (error.name === 'ValidationError') {
-            return response.status(400).json({error: error.message})
-        }
-
-        next(error)
+    if (error.name === 'CastError') {
+        return response.status(400).send({error: 'malformatted id'})
     }
-    app.use(errorHandler)
+
+    if (error.name === 'ValidationError') {
+        return response.status(400).json({error: error.message})
+    }
+
+    next(error)
+}
+app.use(errorHandler)
+
 
 
